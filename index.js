@@ -2,51 +2,31 @@
 
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 
-//Renderizar o HTML
+//Render HTML
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
-app.get("/:nome/:lang", (req, res) => {
-    let nome = req.params.nome;
-    let lang = req.params.lang;
-    let exibirMsg = false;
-
-    let produtos = [{
-            nome: "Doritos",
-            preco: 3.14
-        },
-        {
-            nome: "Coca-Cola",
-            preco: 5
-        },
-        {
-            nome: "Leite",
-            preco: 1.45
-        },
-        {
-            nome: "Carne",
-            preco: 15
-        },
-        {
-            nome: "Redbull",
-            preco: 6
-        },
-        {
-            nome: "Nescau",
-            preco: 4
-        }
-    ];
-
-    res.render("./index", {
-        nome: nome,
-        lang: lang,
-        empresa: "Gravity Dance Goods",
-        msg: exibirMsg,
-        produtos: produtos
-    });
+//Body-Parser
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(bodyParser.json());
+//Routes
+app.get("/", (req, res) => {
+    res.render("./index");
 });
 
+app.get("/perguntar", (req, res) => {
+    res.render("./perguntar");
+});
+
+app.post("/saveQuestion", (req, res) => {
+    let titulo = req.body.titulo;
+    let pergunta = req.body.pergunta;
+    res.send("Formulário recebido! Título: " + titulo + "; Descrição: " + pergunta);
+});
+//Server
 app.listen(8080, (req, res) => {
-    console.log("App a trabalhar...");
+    console.log("Servidor a trabalhar...");
 });

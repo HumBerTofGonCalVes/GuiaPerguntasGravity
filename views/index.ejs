@@ -1,33 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-pt">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia Perguntas/Respostas</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+<%- include("./partials/header.ejs")%>
 
 <body>
-    <img src="/img/manha.jpg" alt="">
-    <h1>Guia Perguntas/Respostas</h1>
-    <hr>
-    <h3>Lista de Perguntas: </h3>
-    <p>Nome: <%= nome %></p>
-    <p>Linguagem favorita: <%= lang %></p>
-    <p>Empresa: <%= empresa %></p>
-
-    <% if(msg){ %>
-        <h3>Isto é uma mensagem de erro!</h3>
-    <% } else { %>
-        <h3>Nenhum erro encontrado!</h3>
-    <%}%>
-
-    <% produtos.forEach(function(produto) { %>
-        <hr>
-        <h3><%= produto.nome %></h5>
-        <h4><%= produto.preco %></h4>
-    <% }) %>
+    <%- include("./partials/navbar.ejs")%>
+    <div class="container">
+        <h1>Estilo do bootstrap</h1>
+    </div>
 </body>
 
-</html>
+<%- include('./partials/scripts.ejs')%>
