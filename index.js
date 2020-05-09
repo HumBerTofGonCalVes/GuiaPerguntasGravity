@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const connection = require('./database/database');
 const Pergunta = require('./database/Pergunta');
-const Resposta= require('./database/Resposta');
+const Resposta = require('./database/Resposta');
 
 //Database
 connection.authenticate().then(() => {
@@ -63,12 +63,32 @@ app.get('/question/:id', (req, res) => {
         }
     }).then((pergunta) => {
         if (pergunta != undefined) {
-            res.render('./pergunta', {
-                pergunta: pergunta
+            Resposta.findAll({
+                where: {
+                    perguntaId: pergunta.id
+                },
+                order: [
+                    ['id', 'desc']
+                ]
+            }).then(respostas => {
+                res.render('./pergunta', {
+                    pergunta: pergunta,
+                    respostas: respostas
+                });
             });
         } else {
             res.redirect('/');
         }
+    });
+});
+app.post("/answer", (req, res) => {
+    let corpo = req.body.corpo;
+    let perguntaId = req.body.pergunta;
+    Resposta.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    }).then(() => {
+        res.redirect("/question/" + perguntaId);
     });
 });
 
